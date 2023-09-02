@@ -2,18 +2,17 @@ import java.util.EmptyStackException;
 
 public class DStack {
     private int index;
-    private int init_size;
+    private int initsize;
     private int[] array;
-    private static final int new_size = 4;
 
     public DStack(int cap) {
-        init_size = cap;
-        array = new int[new_size];
+        initsize = cap;
+        array = new int[cap];
         index = -1;
     }
     //incr the capacity incase of full stack
     public void push(int element) {
-        if (init_size == index + 1) {
+        if (initsize == index + 1) {
             expandArray();
         }
         //push the data
@@ -24,28 +23,29 @@ public class DStack {
         if (index == -1) {
             throw new EmptyStackException();
         } else {
-            reduceSize();                 //function to check if size can be reduced
+            reduceSizeofArray();
             return array[index--];
         }
     }
 
     public void expandArray() {
-        int curr_size = index + 1;
-        int[] new_array = new int[curr_size * 2];
-        for (int i = 0; i < curr_size; i++) {
+        int currents = index +1;
+        int[] new_array = new int[currents * 2];
+        for (int i = 0; i < currents; i++) {
             new_array[i] = array[i];
         }
-        array = new_array;              //refer to the new array
-        init_size = new_array.length;
+        array = new_array;              
+        initsize = new_array.length;
     }
 
-    public void reduceSize() {
-        int curr_length = index + 1;
-        if (curr_length < init_size / 2) {
-            int[] new_array = new int[init_size / 2];
-            System.arraycopy(array, 0, new_array, 0, new_array.length);
-            array = new_array;
-            init_size = new_array.length;
+    public void reduceSizeofArray() {
+        int currentLength = index + 1;
+        
+        if (currentLength < initsize / 2) {
+            int[] newArray = new int[initsize / 2];
+            System.arraycopy(array, 0, newArray, 0, newArray.length);
+            array = newArray;
+            initsize = newArray.length;
         }
     }
 }

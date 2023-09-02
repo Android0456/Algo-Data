@@ -4,9 +4,6 @@ import java.util.stream.IntStream;
 public class Main {
 
     public static void main(String[] args) {
-        benchmarkRegularS(1000);
-        benchmarkDS(1000);
-
 
             DCalculator calculator = new DCalculator(new Item[]{
                 new Item(1),
@@ -58,33 +55,38 @@ public class Main {
         return expression;
     }
 
-    public static void benchmarkRegularS(int loops) {
-        double min1 = IntStream.range(0, loops)
-            .mapToObj(i -> {
-                Calculator cal = new Calculator(RNGesus());
-                long startTime = System.nanoTime();
-                cal.runStatic();
-                long endTime = System.nanoTime();
-                return (double) (endTime - startTime);
-            })
-            .min(Double::compare)
-            .orElse(Double.MAX_VALUE);
-        System.out.println("Static stack: " + min1 + " nanoseconds.");
-    }
+        public static void benchmarkRegularS(int loops) {
+            double min1 = IntStream.range(0, loops)
+                .mapToObj(i -> {
+                    Calculator cal = new Calculator(RNGesus());
+                    long startTime = System.nanoTime();
+                    cal.runStatic();
+                    long endTime = System.nanoTime();
+                    return (double) (endTime - startTime);
+                })
+                .min(Double::compare)
+                .orElse(Double.MAX_VALUE);
+            System.out.println("Static stack: " + min1 + " nanoseconds.");
+        }
 
     public static void benchmarkDS(int loops) {
+        // Run the timer loop without including the startup time
         double min2 = IntStream.range(0, loops)
             .mapToObj(i -> {
                 DCalculator cal = new DCalculator(RNGesus());
+                // Start timing after the calibration run
                 long startT = System.nanoTime();
+    
                 cal.run();
+    
                 long endT = System.nanoTime();
+    
                 return (double) (endT - startT);
             })
             .min(Double::compare)
             .orElse(Double.MAX_VALUE);
-
-        System.out.println("Dyn Stack: " + min2 + " nanoseconds.");
+    
+        System.out.println("Dyn Stack: " + min2 + " nanoseconds. ");
     }
 
 }
