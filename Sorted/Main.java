@@ -3,30 +3,6 @@ import java.util.Random;
 public class Main {
 
     public static void main(String[] args) {
-        //running benchmark for linear search for sorted and unsorted array
-//        for (int i = 100; i < 100_000; i += 1000) {
-////            System.out.println("array size = " + i + ", search time = " + benchmarkUnsortedSearch(i) + "ns");
-////            System.out.printf("%d\t %f%n",i, benchmarkUnsortedSearch(i));
-//            System.out.printf("%d\t %f%n", i, benchmarkSortedSearch(i));
-//    }
-//       }
-//        System.out.printf("%f%n 16M",  benchmarkBinarySearch(64_000_000));
-
-        //testing boundary values for better duplicate search
-//        int[] a = new int[]{1, 2, 4, 6};
-//        int[] b = new int[]{2, 3, 5,6,7,8};
-//        System.out.printf("first array: ");
-//        for (int i = 0; i < a.length; i++) {
-//            System.out.printf("%d ", a[i]);
-//        }
-//        System.out.println();
-//        System.out.printf("second array: ");
-//        for (int i = 0; i < b.length; i++) {
-//            System.out.printf("%d ", b[i]);
-//        }
-//        System.out.println();
-//        betterDuplicateSearch(a, b);
-
         //benchmark of the duplicate search
         System.out.printf("%d\t %f%n", 100, benchmarkDuplicateSearch(100, 100));
         System.out.printf("%d\t %f%n", 200, benchmarkDuplicateSearch(200, 200));
@@ -36,16 +12,6 @@ public class Main {
         System.out.printf("%d\t %f%n", 3200, benchmarkDuplicateSearch(3200, 3200));
         System.out.printf("%d\t %f%n", 6400, benchmarkDuplicateSearch(6400, 6400));
         System.out.printf("%d\t %f%n", 12800, benchmarkDuplicateSearch(12800, 12800));
-
-        //benchmark better duplicate search
-//        System.out.printf("%d\t %f%n", 100, benchmarkBetterDuplicateSearch(100,100));
-//        System.out.printf("%d\t %f%n", 200, benchmarkBetterDuplicateSearch(200,200));
-//        System.out.printf("%d\t %f%n", 400, benchmarkBetterDuplicateSearch(400,400));
-//        System.out.printf("%d\t %f%n", 800, benchmarkBetterDuplicateSearch(800,800));
-//        System.out.printf("%d\t %f%n", 1600, benchmarkBetterDuplicateSearch(1600,1600));
-//        System.out.printf("%d\t %f%n", 3200, benchmarkBetterDuplicateSearch(3200,3200));
-//        System.out.printf("%d\t %f%n", 6400, benchmarkBetterDuplicateSearch(6400,6400));
-//        System.out.printf("%d\t %f%n", 12800, benchmarkBetterDuplicateSearch(12800,12800));
 
     }
 
