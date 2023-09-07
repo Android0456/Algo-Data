@@ -24,18 +24,23 @@ public class Main {
     public static void betterDuplicateSearch(int[] sortedArray1, int[] sortedArray2) {
         int index1 = 0;
         int index2 = 0;
-        while (index1 < (sortedArray1.length) && index2 < sortedArray2.length) {
-            if (sortedArray2[index2] < sortedArray1[index1]) {
-                index2++;
-            } else if (sortedArray1[index1] == sortedArray2[index2]) {
-                index1++;
-//                System.out.println("duplicate found! " + sortedArray1[index1 - 1] + sortedArray2[index2]);
-
-            } else if (sortedArray1[index1] < sortedArray2[index2]) {
-                index1++;
+        while (index1 < sortedArray1.length && index2 < sortedArray2.length) {
+            int comparisonResult = Integer.compare(sortedArray2[index2], sortedArray1[index1]);
+            switch (comparisonResult) {
+                case -1:
+                    index2++;
+                    break;
+                case 0:
+                    index1++;
+    //                System.out.println("duplicate found! " + sortedArray1[index1 - 1] + sortedArray2[index2]);
+                    break;
+                case 1:
+                    index1++;
+                    break;
+                default:
+                    // Handle unexpected case (optional)
+                    break;
             }
-//            System.out.println("no more duplicates");
-//            System.out.println(index1);
         }
     }
 
@@ -43,12 +48,20 @@ public class Main {
         int[] sortedArray1 = createSortedArray(arraySize1);
         int[] sortedArray2 = createSortedArray(arraySize2);
         double sum = 0;
+    
+        int[] iterations = new int[100_000];  // Create an array with 100,000 elements
+    
+        // Fill the array with numbers from 0 to 99,999
         for (int i = 0; i < 100_000; i++) {
-            // duplicateSearch(sortedArray1,sortedArray2);
+            iterations[i] = i;
+        }
+    
+        for (int iteration : iterations) {
             long timeStart = System.nanoTime();
             duplicateSearch(sortedArray1, sortedArray2);
             sum += (double) (System.nanoTime() - timeStart);
         }
+    
         return sum / 100_000;
     }
 
@@ -73,9 +86,11 @@ public class Main {
             mid = ((low + high) / 2);
             if (array[mid] == key) {
                 return true;
-            } else if (key > array[mid]) { //key is on the right side
+            } 
+            else if (key > array[mid]) { //key is on the right side
                 low = mid + 1;
-            } else
+            } 
+            else
                 high = mid - 1; //key is on the left side.
         }
         return false;
@@ -85,19 +100,25 @@ public class Main {
         Random rnd = new Random();
         int[] arrayToSearch = createSortedArray(maxArraySize);
         double sum = 0;
+    
+        int[] randomKeys = new int[100_000];
         for (int i = 0; i < 100_000; i++) {
-            int key = rnd.nextInt(arrayToSearch.length);
+            randomKeys[i] = rnd.nextInt(arrayToSearch.length);
+        }
+    
+        for (int key : randomKeys) {
             binarySearch(arrayToSearch, key);
             long timeStart = System.nanoTime();
             binarySearch(arrayToSearch, key);
             sum += (double) (System.nanoTime() - timeStart);
         }
+    
         return sum / 100_000;
     }
 
     public static boolean linearSearch(int[] arrayToSearch, int key) {
-        for (int i = 0; i < arrayToSearch.length; i++) {
-            if (arrayToSearch[i] == key) {
+        for (int element : arrayToSearch) {
+            if (element == key) {
                 return true;
             }
         }
@@ -105,11 +126,11 @@ public class Main {
     }
 
     public static boolean linearSortedSearch(int[] arrayToSearch, int key) {
-        for (int i = 0; i < arrayToSearch.length; i++) {
-            if (arrayToSearch[i] == key) {
+        for (int element : arrayToSearch) {
+            if (element == key) {
                 return true;
             }
-            if (key < arrayToSearch[i]) {
+            if (key < element) {
                 return false;
             }
         }
@@ -127,13 +148,18 @@ public class Main {
         Random rnd = new Random();
         int[] arrayToSearch = createRandomArray(maxArraySize);
         double sum = 0;
+    
+        int[] randomKeys = new int[100_000];
         for (int i = 0; i < 100_000; i++) {
-            int key = rnd.nextInt(arrayToSearch.length - 1);
-            linearSearch(arrayToSearch, key);
+            randomKeys[i] = rnd.nextInt(arrayToSearch.length - 1);
+        }
+    
+        for (int key : randomKeys) {
             long timeStart = System.nanoTime();
             linearSearch(arrayToSearch, key);
             sum += (double) (System.nanoTime() - timeStart);
         }
+    
         return sum / 100_000;
     }
 
@@ -141,15 +167,21 @@ public class Main {
         Random rnd = new Random();
         int[] arrayToSearch = createSortedArray(maxArraySize);
         double sum = 0;
+    
+        int[] randomKeys = new int[100_000];
         for (int i = 0; i < 100_000; i++) {
-            int key = rnd.nextInt(arrayToSearch.length);
-            linearSearch(arrayToSearch, key);
+            randomKeys[i] = rnd.nextInt(arrayToSearch.length);
+        }
+    
+        for (int key : randomKeys) {
             long timeStart = System.nanoTime();
             linearSearch(arrayToSearch, key);
             sum += (double) (System.nanoTime() - timeStart);
         }
+    
         return sum / 100_000;
     }
+    
 
     public static int[] createSortedArray(int arraySize) {
         Random rnd = new Random();
