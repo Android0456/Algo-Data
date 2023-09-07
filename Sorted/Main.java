@@ -4,14 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
         //benchmark of the duplicate search
-        System.out.printf("%d\t %f%n", 100, benchmarkDuplicateSearch(100, 100));
-        System.out.printf("%d\t %f%n", 200, benchmarkDuplicateSearch(200, 200));
-        System.out.printf("%d\t %f%n", 400, benchmarkDuplicateSearch(400, 400));
-        System.out.printf("%d\t %f%n", 800, benchmarkDuplicateSearch(800, 800));
-        System.out.printf("%d\t %f%n", 1600, benchmarkDuplicateSearch(1600, 1600));
-        System.out.printf("%d\t %f%n", 3200, benchmarkDuplicateSearch(3200, 3200));
-        System.out.printf("%d\t %f%n", 6400, benchmarkDuplicateSearch(6400, 6400));
-        System.out.printf("%d\t %f%n", 12800, benchmarkDuplicateSearch(12800, 12800));
+        System.out.printf("%d\t %f%n", 1000, unsortedBenchmark(1000));
 
     }
 
@@ -116,7 +109,7 @@ public class Main {
         return sum / 100_000;
     }
 
-    public static boolean linearSearch(int[] arrayToSearch, int key) {
+    public static boolean unsortedSearch(int[] arrayToSearch, int key) {
         for (int element : arrayToSearch) {
             if (element == key) {
                 return true;
@@ -125,7 +118,7 @@ public class Main {
         return false;
     }
 
-    public static boolean linearSortedSearch(int[] arrayToSearch, int key) {
+    public static boolean sortedSearch(int[] arrayToSearch, int key) {
         for (int element : arrayToSearch) {
             if (element == key) {
                 return true;
@@ -144,7 +137,7 @@ public class Main {
      * @param maxArraySize the arrays size.
      * @return the average time measured over 1,000,000 loops
      */
-    public static double benchmarkUnsortedSearch(int maxArraySize) {
+    public static double unsortedBenchmark(int maxArraySize) {
         Random rnd = new Random();
         int[] arrayToSearch = RandomArray(maxArraySize);
         double sum = 0;
@@ -156,14 +149,14 @@ public class Main {
     
         for (int key : randomKeys) {
             long timeStart = System.nanoTime();
-            linearSearch(arrayToSearch, key);
+            unsortedSearch(arrayToSearch, key);
             sum += (double) (System.nanoTime() - timeStart);
         }
     
         return sum / 100_000;
     }
 
-    public static double benchmarkSortedSearch(int maxArraySize) {
+    public static double sortedBenchmark(int maxArraySize) {
         Random rnd = new Random();
         int[] arrayToSearch = SortedArray(maxArraySize);
         double sum = 0;
@@ -175,7 +168,7 @@ public class Main {
     
         for (int key : randomKeys) {
             long timeStart = System.nanoTime();
-            linearSearch(arrayToSearch, key);
+            unsortedSearch(arrayToSearch, key);
             sum += (double) (System.nanoTime() - timeStart);
         }
     
