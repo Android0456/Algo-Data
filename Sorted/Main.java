@@ -45,8 +45,8 @@ public class Main {
     }
 
     public static double benchmarkDuplicateSearch(int arraySize1, int arraySize2) {
-        int[] sortedArray1 = createSortedArray(arraySize1);
-        int[] sortedArray2 = createSortedArray(arraySize2);
+        int[] sortedArray1 = SortedArray(arraySize1);
+        int[] sortedArray2 = SortedArray(arraySize2);
         double sum = 0;
     
         int[] iterations = new int[100_000];  // Create an array with 100,000 elements
@@ -66,8 +66,8 @@ public class Main {
     }
 
     public static double benchmarkBetterDuplicateSearch(int arraySize1, int arraySize2) {
-        int[] sortedArray1 = createSortedArray(arraySize1);
-        int[] sortedArray2 = createSortedArray(arraySize2);
+        int[] sortedArray1 = SortedArray(arraySize1);
+        int[] sortedArray2 = SortedArray(arraySize2);
         double sum = 0;
         for (int i = 0; i < 100_000; i++) {
 //             betterDuplicateSearch(sortedArray1,sortedArray2);
@@ -98,7 +98,7 @@ public class Main {
 
     public static double benchmarkBinarySearch(int maxArraySize) {
         Random rnd = new Random();
-        int[] arrayToSearch = createSortedArray(maxArraySize);
+        int[] arrayToSearch = SortedArray(maxArraySize);
         double sum = 0;
     
         int[] randomKeys = new int[100_000];
@@ -146,7 +146,7 @@ public class Main {
      */
     public static double benchmarkUnsortedSearch(int maxArraySize) {
         Random rnd = new Random();
-        int[] arrayToSearch = createRandomArray(maxArraySize);
+        int[] arrayToSearch = RandomArray(maxArraySize);
         double sum = 0;
     
         int[] randomKeys = new int[100_000];
@@ -165,7 +165,7 @@ public class Main {
 
     public static double benchmarkSortedSearch(int maxArraySize) {
         Random rnd = new Random();
-        int[] arrayToSearch = createSortedArray(maxArraySize);
+        int[] arrayToSearch = SortedArray(maxArraySize);
         double sum = 0;
     
         int[] randomKeys = new int[100_000];
@@ -183,7 +183,7 @@ public class Main {
     }
     
 
-    public static int[] createSortedArray(int arraySize) {
+    public static int[] SortedArray(int arraySize) {
         Random rnd = new Random();
         int[] array = new int[arraySize];
         int next = 0;
@@ -194,7 +194,7 @@ public class Main {
         return array;
     }
 
-    public static int[] createRandomArray(int maxArraySize) {
+    public static int[] RandomArray(int maxArraySize) {
         Random rnd = new Random();
         int[] rndArray = new int[maxArraySize];
         for (int i = 0; i < rndArray.length; i++) {
