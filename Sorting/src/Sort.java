@@ -20,8 +20,7 @@ public class Sort {
                     Index = j;
                 }
             }
-            // swap the found minimum element with the element we started at, i.e. element
-            // at index i
+            // swap the smallest found element with the element we started at
             temp = array[Index];
             array[Index] = array[i];
             array[i] = temp;
@@ -35,20 +34,19 @@ public class Sort {
      * 
      * @param array
      */
-    public static void insertion(int[] array) {
-        int min;
-        int j;
+    
+     public static void insertion(int[] array) {
         for (int i = 1; i < array.length; i++) {
-            min = array[i];
-            j = i - 1;
-            // Compare key with each element on the left of it until an element smaller than
-            // it is found.
-            while (j >= 0 && min < array[j]) {
-                array[j + 1] = array[j]; // move elements to the right in the array
-                j--;
+            for (int j = i; j > 0 && array[j] < array[j - 1]; j--) {
+                swap(array, j, j - 1);
             }
-            array[j + 1] = min;
         }
+    }
+    
+    private static void swap(int[] array, int i, int j) {
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
 
     /**
@@ -104,7 +102,15 @@ public class Sort {
             }
         }
     }
+    
 
+
+    /**
+     * Quick sort algorithm. Time complexity of O(n*log(n)) 
+     * in the average and best case and O(n^2) in worst case
+     * 
+     * @param original the array we want sorted
+     */
     public static void quick(int[] array) {
         quickSort(array, 0, array.length - 1);
     }
