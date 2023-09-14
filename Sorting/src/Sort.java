@@ -10,20 +10,20 @@ public class Sort {
      * @return the same array but sorted
      */
     public static void selection(int[] array) {
-        int minIndex;
+        int Index;
         int temp;
         for (int i = 0; i < array.length - 1; i++) {
-            minIndex = i;
+            Index = i;
             // find minimum element in an unsorted array
             for (int j = i + 1; j < array.length; j++) {
-                if (array[j] < array[minIndex]) {
-                    minIndex = j;
+                if (array[j] < array[Index]) {
+                    Index = j;
                 }
             }
             // swap the found minimum element with the element we started at, i.e. element
             // at index i
-            temp = array[minIndex];
-            array[minIndex] = array[i];
+            temp = array[Index];
+            array[Index] = array[i];
             array[i] = temp;
         }
     }
@@ -103,5 +103,38 @@ public class Sort {
                 original[k] = auxillary[j++];
             }
         }
+    }
+
+    public static void quick(int[] array) {
+        quickSort(array, 0, array.length - 1);
+    }
+    
+    private static void quickSort(int[] array, int low, int high) {
+        if (low < high) {
+            int pivotIndex = partition(array, low, high);
+    
+            quickSort(array, low, pivotIndex - 1);
+            quickSort(array, pivotIndex + 1, high);
+        }
+    }
+    
+    private static int partition(int[] array, int low, int high) {
+        int pivot = array[high];
+        int i = low - 1;
+    
+        for (int j = low; j < high; j++) {
+            if (array[j] < pivot) {
+                i++;
+                int temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+    
+        int temp = array[i + 1];
+        array[i + 1] = array[high];
+        array[high] = temp;
+    
+        return i + 1;
     }
 }
