@@ -2,17 +2,18 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.printf("%s\t %6s\t %14s\t %12s\t %6s\t %12s\t %n", "n", "select", "insert", "ratio", "merge", "ratio");
+        System.out.printf("%s\t %6s\t %14s\t %12s\t %6s\t %12s\t %n", "n", "select", "insert", "ratio", "merge", "ratio", "Improved merge");
 
-        for (int i = 100; i <= 25600; i *= 2) {
+        for (int i = 100; i <= 6400; i *= 2) {
             int[] array = createRandomArray(i);
             double selectionTime = benchmarkSelection(array, 10, 1000);
             double insertionTime = benchmarkInsertion(array, 10, 1000);
             double mergeTime = benchmarkMerge(array, 10, 1000);
+            double imprmergeTime = imprbenchmarkMerge(array, 10, 1000);
             double ratioSI = selectionTime / insertionTime;
             double ratioIM = insertionTime / mergeTime;
 
-            System.out.printf("%d\t %.2f\t %.2f\t %.2f\t %.2f\t %.2f\t %n", i, selectionTime, insertionTime, ratioSI, mergeTime, ratioIM);
+            System.out.printf("%d\t %.2f\t %.2f\t %.2f\t %.2f\t %.2f\t %.2f\t %n", i, selectionTime, insertionTime, ratioSI, mergeTime, ratioIM, imprmergeTime);
         }
     }
 
@@ -67,6 +68,27 @@ public class Main {
             for (int j = 0; j < loop; j++) {
                 int[] copy = array.clone();
                 Sort.sort(copy);
+            }
+
+            double totalTime = System.nanoTime() - startTime;
+
+            if (totalTime < minMergeTime) {
+                minMergeTime = totalTime;
+            }
+        }
+
+        return minMergeTime / loop;
+    }
+
+    public static double imprbenchmarkMerge(int[] array, int tries, int loop) {
+        double minMergeTime = Double.POSITIVE_INFINITY;
+
+        for (int k = 0; k < tries; k++) {
+            double startTime = System.nanoTime();
+
+            for (int j = 0; j < loop; j++) {
+                int[] copy = array.clone();
+                Sort.sortBetter(copy);
             }
 
             double totalTime = System.nanoTime() - startTime;

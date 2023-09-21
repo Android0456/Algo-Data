@@ -58,23 +58,23 @@ public class Sort {
         if (original.length == 0) {
             return;
         }
-        int[] auxillary = new int[original.length];
-        sort(original, auxillary, 0, original.length - 1);
+        int[] auxiliaryArray = new int[original.length];
+        sort(original, auxiliaryArray, 0, original.length - 1);
     }
-
-    private static void sort(int[] original, int[] auxillary, int low, int high) {
+    
+    private static void sort(int[] original, int[] auxiliaryArray, int low, int high) {
         if (low != high) {
             int middle = low + (high - low) / 2;
-            sort(original, auxillary, low, middle);
-            sort(original, auxillary, middle + 1, high);
-            merge(original, auxillary, low, middle, high);
+            sort(original, auxiliaryArray, low, middle);
+            sort(original, auxiliaryArray, middle + 1, high);
+            merge(original, auxiliaryArray, low, middle, high);
         }
     }
 
-    private static void merge(int[] original, int[] auxillary, int low, int middle, int high) {
+    private static void merge(int[] original, int[] auxiliaryArray, int low, int middle, int high) {
         // copy all items from lo to hi from org to aux
         for (int i = low; i <= high; i++) {
-            auxillary[i] = original[i];
+            auxiliaryArray[i] = original[i];
         }
         // let's do the merging
         int i = low; // the index in the first part
@@ -84,21 +84,75 @@ public class Sort {
             // corner case
             // if i (low) is greater than mid, move the j item to the org array, update j
             if (i > middle) {
-                original[k] = auxillary[j++];
+                original[k] = auxiliaryArray[j++];
 
                 // corner case
                 // else if j is greater than hi, move the i item to the org array, update i
             } else if (j > high) {
-                original[k] = auxillary[i++];
+                original[k] = auxiliaryArray[i++];
 
                 // else if the i item is smaller than the j item,
                 // move it to the org array, update i
-            } else if (auxillary[i] < auxillary[j]) {
-                original[k] = auxillary[i++];
+            } else if (auxiliaryArray[i] < auxiliaryArray[j]) {
+                original[k] = auxiliaryArray[i++];
 
                 // else you can move the j item to the org array, update j
             } else {
-                original[k] = auxillary[j++];
+                original[k] = auxiliaryArray[j++];
+            }
+        }
+    }
+
+    public static int[] copyArray(int[] array) {
+        int[] tempArray = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            tempArray[i] = array[i];
+        }
+        return tempArray;
+    }
+    
+
+    public static void sortBetter(int[] original) {
+        if (original.length == 0) {
+            return;
+        }
+        int[] auxiliaryArray = copyArray(original);
+        sort2Better(original, auxiliaryArray, 0, original.length - 1);
+    }
+    
+    private static void sort2Better(int[] original, int[] auxiliaryArray, int low, int high) {
+        if (low != high) {
+            int middle = low + (high - low) / 2;
+            sort2Better(auxiliaryArray, original, low, middle);
+            sort2Better(auxiliaryArray, original, middle + 1, high);
+            mergeBetter(original, auxiliaryArray, low, middle, high);
+        }
+    }
+
+    private static void mergeBetter(int[] original, int[] auxiliaryArray, int low, int middle, int high) {
+        // let's do the merging
+        int i = low; // the index in the first part
+        int j = middle + 1; // the index in the second part
+        // for all indices from low to high
+        for (int k = low; k <= high; k++) {
+            // corner case
+            // if i (low) is greater than mid, move the j item to the org array, update j
+            if (i > middle) {
+                original[k] = auxiliaryArray[j++];
+
+                // corner case
+                // else if j is greater than hi, move the i item to the org array, update i
+            } else if (j > high) {
+                original[k] = auxiliaryArray[i++];
+
+                // else if the i item is smaller than the j item,
+                // move it to the org array, update i
+            } else if (auxiliaryArray[i] < auxiliaryArray[j]) {
+                original[k] = auxiliaryArray[i++];
+
+                // else you can move the j item to the org array, update j
+            } else {
+                original[k] = auxiliaryArray[j++];
             }
         }
     }
