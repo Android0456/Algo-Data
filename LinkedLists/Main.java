@@ -10,7 +10,7 @@ public class Main {
 
     public static void benchmarkAppendVaryingASize() {
         int bSize = 1000; // Size of the fixed-size list b
-        int[] aSizes = {100, 500, 1000, 5000}; // Varying sizes of list a
+        int[] aSizes = { 100, 750, 1500, 2250, 3000, 4000, 5000 }; // Varying sizes of list a
 
         for (int aSize : aSizes) {
             LinkedList a = createLinkedList(aSize);
@@ -27,7 +27,7 @@ public class Main {
 
     public static void benchmarkAppendVaryingBSize() {
         int aSize = 1000; // Size of list a
-        int[] bSizes = {100, 500, 1000, 5000}; // Varying sizes of list b
+        int[] bSizes = { 100, 750, 1500, 2250, 3000, 4000, 5000 }; // Varying sizes of list b
 
         LinkedList a = createLinkedList(aSize);
 
@@ -45,7 +45,7 @@ public class Main {
 
     public static void benchmarkAppendLinkedList() {
         int bSize = 1000; // Size of the fixed-size list b
-        int[] aSizes = {100, 500, 1000, 5000}; // Varying sizes of list a
+        int[] aSizes = { 100, 750, 1500, 2250, 3000, 4000, 5000 }; // Varying sizes of list a
 
         for (int aSize : aSizes) {
             LinkedList a = createLinkedList(aSize);
@@ -62,7 +62,7 @@ public class Main {
 
     public static void benchmarkAppendArray() {
         int bSize = 1000; // Size of the fixed-size array b
-        int[] aSizes = {100, 500, 1000, 5000}; // Varying sizes of array a
+        int[] aSizes = { 100, 750, 1500, 2250, 3000, 4000, 5000 }; // Varying sizes of array a
 
         for (int aSize : aSizes) {
             int[] a = new int[aSize];
@@ -85,7 +85,7 @@ public class Main {
     }
 
     public static void benchmarkBuildingList() {
-        int[] listSizes = {100, 500, 1000, 5000}; // Varying sizes of the list
+        int[] listSizes = { 100, 750, 1500, 2250, 3000, 4000, 5000 }; // Varying sizes of the list
 
         for (int size : listSizes) {
             long startTime = System.nanoTime();
@@ -96,8 +96,6 @@ public class Main {
             System.out.println("LinkedList Build: Size: " + size + ", Time (ns): " + elapsedTime);
         }
     }
-
-    
 
     public static LinkedList createLinkedList(int size) {
         LinkedList list = new LinkedList();

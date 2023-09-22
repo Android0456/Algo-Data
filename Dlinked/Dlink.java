@@ -4,6 +4,8 @@ import java.util.LinkedList;
 
 public class Dlink {
     private Node first;
+    private Node[] holder = new Node[25600];
+    private int size = 0;
 
     private class Node {
         int head;
@@ -17,9 +19,15 @@ public class Dlink {
         }
     }
 
+    public int getSize() {
+        return size;
+    }
+
     // Add item as the first cell in the sequence
     public void add(int item) {
         Node newNode = new Node(item, first, null);
+        holder[size] = newNode;
+        size++;
 
         if (first != null) {
             first.prev = newNode;
@@ -113,4 +121,3 @@ public class Dlink {
         b.first = null;
     }
 }
-
