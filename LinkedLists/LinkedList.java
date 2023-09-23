@@ -1,9 +1,9 @@
 
 
 public class LinkedList {
-    private Node first;
+     Node first;
 
-    private class Node {
+    public static class Node {
         int head;
         Node tail;
 
@@ -48,10 +48,7 @@ public class LinkedList {
         Node current = first;
         Node previous = null;
 
-        while (current != null && current.head != item) {
-            previous = current;
-            current = current.tail;
-        }
+        for (; current != null && current.head != item; previous = current, current = current.tail);
 
         if (current != null) {
             previous.tail = current.tail;
@@ -69,6 +66,7 @@ public class LinkedList {
         while (current.tail != null) {
             current = current.tail;
         }
+        
 
         current.tail = b.first;
         b.first = null;
@@ -98,6 +96,44 @@ public class LinkedList {
         public boolean isEmpty() {
             return list.first == null;
         }
+    }
+
+    void unlink(Node cut){ 
+        if (this.first == cut) { 
+            this.first = cut.tail;
+            return;
+        }
+        Node temp = cut;
+        Node next = this.first;
+        Node prev = null;     
+        for (temp = this.first; temp != null; temp = temp.tail) {
+            prev = next;
+            next = next.tail;
+            if (temp.tail == null) {
+                break;
+            }
+            if (next == temp) {
+                prev.tail = next.tail;
+                return;
+            }
+        }
+    }
+
+    public void insert(Node insert) {
+        insert.tail = this.first;
+        this.first = insert;
+    }
+
+    Node getCell(int position){
+        Node inline = this.first;
+        int counter = position;
+        if (length() < position || position < 0) {
+            return null;
+        }
+        for (int i = 0; i < counter; i++) {
+            inline = inline.tail;
+        }
+        return inline;
     }
     
 }

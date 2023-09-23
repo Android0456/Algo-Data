@@ -1,3 +1,7 @@
+
+
+import java.util.Random;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -6,8 +10,9 @@ public class Main {
         benchmarkAppendLinkedList();
         benchmarkAppendArray();
         benchmarkBuildingList();
-    }
 
+        
+    }
     public static void benchmarkAppendVaryingASize() {
         int bSize = 1000; // Size of the fixed-size list b
         int[] aSizes = { 100, 750, 1500, 2250, 3000, 4000, 5000 }; // Varying sizes of list a
@@ -24,6 +29,16 @@ public class Main {
             System.out.println("Size of a: " + aSize + ", Time (ns): " + elapsedTime);
         }
     }
+    
+    private static Dlink genDoubleList(int n) {
+		Dlink list = new Dlink();
+		int[] randomValues = new int[n];
+        for (int i = 0; i < n; i++) {
+        	randomValues[i] = (randomValue(13, false));
+			list.add(randomValues[i]);
+        }
+		return list;
+	}
 
     public static void benchmarkAppendVaryingBSize() {
         int aSize = 1000; // Size of list a
@@ -103,5 +118,14 @@ public class Main {
             list.add(i);
         }
         return list;
+    }
+    private static int randomValue(int limit, boolean includeZero){
+
+        Random rnd = new Random();
+        if (includeZero) {
+            return rnd.nextInt(limit);
+        } else {
+            return (rnd.nextInt(limit - 1) + 1);
+        }
     }
 }
