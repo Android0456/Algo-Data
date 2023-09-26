@@ -1,6 +1,6 @@
 package Trees;
 
-public class Main {
+public class Tree {
     public static void main(String[] args) {
         int treeSize = 1000;
         BinaryTree bTree1 = new BinaryTree();
