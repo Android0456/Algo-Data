@@ -69,9 +69,9 @@ public class BinaryTree implements Iterable<Integer> {
     /*
      * Creates a binary tree of specified size and populates it with key values
      */
-    public BinaryTree(int size) {
+   public BinaryTree(int size) {
         Random rnd = new Random();
-        // root = new Node((size * 2) + rnd.nextInt(size / 2) - rnd.nextInt(size / 2),
+        // root = new Node((size * 2) + rnd.nextInt(size / 2) - rnd.nextInt(size /2),
         // rnd.nextInt(size * 10));
         // for (int i = 0; i < size; i++) {
         // add(rnd.nextInt(size * 4) + 1, rnd.nextInt(size * 10));
@@ -102,58 +102,21 @@ public class BinaryTree implements Iterable<Integer> {
         root.print();
     }
 
-    public static void benchmarkLookup(int treeSize, int runs) {
-        Random rnd = new Random();
-        long tMin = Long.MAX_VALUE;
-        long time = 0;
-        BinaryTree bTree = new BinaryTree(treeSize);
-
-        int tempKey = rnd.nextInt(treeSize);
-        bTree.lookup(tempKey);
-
-        for (int i = 0; i < runs; i++) {
-            int key = rnd.nextInt(treeSize);
-            // System.out.println("key " + key);
-            long timeStart = System.nanoTime();
-            bTree.lookup(key);
-            long timeStop = System.nanoTime();
-            time += timeStop - timeStart;
-            if ((timeStop - timeStart) < tMin) {
-                tMin = timeStop - timeStart;
-            }
-        }
-        System.out.printf("%d\t %d\t %d%n", treeSize, tMin, time / runs);
-        //System.out.println("Min: " + tMin);
-        //System.out.println("Average time: " + time / runs);
-
-    }
-
     public static void main(String[] args) {
-        BinaryTree tree = new BinaryTree();
-        tree.add(5, 105);
-        tree.add(2, 102);
-        tree.add(7, 107);
-        tree.add(1, 101);
-        tree.add(8, 108);
-        tree.add(6, 106);
-        tree.add(3, 103);
 
-        Iterator<Integer> itr = tree.iterator();
-        System.out.println(itr.next());
-        System.out.println(itr.next());
-        System.out.println(itr.next());
-        System.out.println(itr.next());
-        System.out.println("add key 4 to tree. shouldn't show up before the for each loop");
-        tree.add(4, 104);
-        System.out.println("add key 9 to tree. might show up before the for each loop");
-        tree.add(9, 109);
-        System.out.println(itr.next());
-        System.out.println(itr.next());
+        BinaryTree tree = new BinaryTree();
+        tree.add(20, 20);
+        tree.add(8, 8);
+        tree.add(22, 22);
+        tree.add(4, 4);
+        tree.add(12, 12);
+        tree.add(10, 10);
+        tree.add(14, 14);
+
+        // tree.print();
+
         for (int i : tree)
             System.out.println("Next value " + i);
-        System.out.println(itr.next());
-        System.out.println(itr.next());
-            
     }
 
     @Override
@@ -162,36 +125,36 @@ public class BinaryTree implements Iterable<Integer> {
     }
 
     public class TreeIterator implements Iterator<Integer> {
-        private Node next;
-        private Stack<Node> stack;
+        private Que<Node> queue;
 
-        public TreeIterator(Node current) {
-            stack = new Stack<Node>();
-            moveLeft(current);
+        public TreeIterator(Node root) {
+            queue = new Que<Node>();
+            queue.enqueue(root);
         }
 
         @Override
         public boolean hasNext() {
-            return !stack.isEmpty();
+            return !queue.isEmpty();
 
         }
+
         @Override
         public Integer next() {
             if (!hasNext()) {
-                throw new NoSuchElementException();
+                throw new NoSuchElementException("No more elements in the binary tree.");
             }
-            Node curr = stack.pop();
-            if (curr.right != null) {
-                moveLeft(curr.right);
+
+            Node current = queue.dequeue();
+    
+            if (current.left != null) {
+                queue.enqueue(current.left);
             }
-            next = curr;
-            return curr.value;
-        }
-        private void moveLeft(Node current) {
-            while (current != null) {
-                stack.push(current);
-                current = current.left;
+
+            if (current.right != null) {
+                queue.enqueue(current.right);
             }
+
+            return current.value;
         }
 
         @Override
