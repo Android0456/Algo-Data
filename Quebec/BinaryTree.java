@@ -140,22 +140,21 @@ public class BinaryTree implements Iterable<Integer> {
 
         @Override
         public Integer next() {
-            if (!hasNext()) {
+            if (!hasNext() || queue.isEmpty()) {
                 throw new NoSuchElementException("No more elements in the binary tree.");
             }
-
+        
             Node current = queue.dequeue();
-    
-            if (current.left != null) {
-                queue.enqueue(current.left);
+        
+            for (Node child : new Node[]{current.left, current.right}) {
+                if (child != null) {
+                    queue.enqueue(child);
+                }
             }
-
-            if (current.right != null) {
-                queue.enqueue(current.right);
-            }
-
+        
             return current.value;
         }
+        
 
         @Override
         public void remove() {

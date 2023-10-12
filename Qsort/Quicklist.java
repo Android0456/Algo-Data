@@ -1,83 +1,130 @@
 public class Quicklist {
-    Node head;
-    Node rear;
-
+    
     public class Node {
-        int value;
-        Node next;
+        public int value;
+        public Node next;
 
-        public Node(int input_value, Node list) {
-            value = input_value;
-            next = list;
-        }
-
-        public void printout() {
-            Node current = this;
-            System.out.print(" " + current.value + " ");
-            if (current.next != null) {
-                current = current.next;
-                current.printout();
-            }
+        public Node(int value, Node next){
+            this.next = next;
+            this.value = value;
         }
     }
 
-    public Quicklist(int fih) {
-        head = new Node(fih, null);
+    Node first;
+    Node last;
+
+    public Quicklist(){
+        first = null;
+        last = null;
     }
 
-    public void add(int item) {
-        if (head.next == null) {
-            rear = new Node(item, head);
-            head.next = rear;
-        } else {
-            Node temp = rear;
-            rear = new Node(item, null);
-            temp.next = rear;
+    public void add(Integer item) {
+        if(first == null){
+            first = new Node(item, null);
+            last = first;
+        }
+        else{
+            last.next = new Node(item, null);
+            last = last.next;
         }
     }
-
-    public Node partition(Node first, Node last) {
-        Node current = first, low = null, high = null, temp;
-        Integer pivot = first.value;
-        while (current != last.next && current != null) {
-            temp = current;
-            current = current.next;
-            temp.next = null;
-            // System.out.println("This is temp V");
-            // temp.printout();
-            // System.out.println();
-
-            if (low == null && pivot > temp.value) {
-                low = temp;
-                first = low;
-            } else if (high == null && pivot == temp.value) {
-                high = temp;
-                last = high;
-            } else if (pivot > temp.value) {
-                low.next = temp;
-                low = low.next;
-            } else if (pivot < temp.value) {
-                high.next = temp;
-                high = high.next;
-            }
-        }
-        high = last;
-        low.next = last;
-        low = first;
-
-        System.out.println("uwu_wos_dis");
-        low.printout();
-        System.out.println();
-        high.printout();
-        return high;
-    }
-
-    public void sort(Node first, Node last) {
-        if (first == last || first == null || last == null)
+    
+    void sort(Node start, Node end){
+        if (start == null || start == end)
+        {
             return;
-        Node pivot = partition(first, last);
-        sort(first, pivot);
-        sort(pivot.next, last);
+        } 
+        Quicklist small = new Quicklist();
+        Quicklist big = new Quicklist(); 
+
+        //Splits list
+        Node pivot = partitionFirst(start, end, small, big);
+
+        //Partition the smaller list
+        small.sort(small.first, small.last);
+        
+        //Partition the bigger list
+        big.sort(big.first, big.last);
+
+        //Resets the current list then appends 
+        //the big list, the pivot and the small list
+        this.first = null;
+        this.last = null;
+        this.append(big.first, big.last);
+        this.append(pivot, pivot);
+        this.append(small.first, small.last);
+            // System.out.println("Final list");
+            // printList();
+    }       
+
+    private Node partitionFirst(Node start, Node end, Quicklist small, Quicklist big){
+
+        Node pivot = start;
+        //Start from the node after the pivot node
+        start = start.next;
+        Node nxt = start;
+
+        while(start != null){
+            nxt = nxt.next;
+            //If new small node, put it at the top of the small list
+            if(start.value < pivot.value){
+                start.next = small.first;
+                small.first = start;
+
+                //First small node is last node
+                if(small.last == null){
+                    small.last = start;
+                }
+            }
+            //If new big node, put it at the top of the big list
+            else{
+                start.next = big.first;
+                big.first = start;
+
+                //First big node is last node
+                if(big.last == null){
+                    big.last = start;
+                }
+            }
+            //Move start to the next node to reiterate
+            start = nxt;
+        }
+        //Dereference and return pivot
+        pivot.next = null;
+        return pivot;
     }
 
+    public void append(Node head, Node tail){
+        //If there isn't anything to append
+        if(head == null){
+            return;
+        }
+
+        //If our list is empty, the new list will just be the appendé
+        if(this.first == null){
+            this.first = head;
+        }
+        else{
+            this.last.next = head;
+        }
+        this.last = tail;  
+    }
+
+    public void printList(){
+        if(first == null){
+            System.out.println("empty list");
+            return;  
+        }
+        Node p = first;
+        int i = 0;
+
+        System.out.println();
+        while(p.next != null){
+            i++;
+            System.out.println("Node " + i + ": " + p.value);
+            p = p.next;
+        }
+        i++;
+        System.out.println("Node " + i + ": " + p.value);
+    }
 }
